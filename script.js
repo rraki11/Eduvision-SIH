@@ -54,14 +54,14 @@ const GESTURE_DEBUG = false;
 
 const GESTURE_CONFIG = {
     // Rotation Settings (Horizontal hand movement -> Model Y-axis rotation)
-    rotationSensitivity: 2.2,     // Rotation speed multiplier based on hand movement delta
-    rotationSmoothing: 0.25,      // Smoothing factor for raw hand coordinates (0.01 - 1.0)
-    rotationDeadZone: 0.0035,     // Ignore tiny hand jitter below this delta (normalized coords)
-    maxRotationVelocity: 0.08,    // Maximum rotation velocity per frame (prevents whipping)
-    rotationDeceleration: 0.18,   // Deceleration rate when hand stops moving (smooth stop)
+    rotationSensitivity: 4.2,     // Increased rotation sensitivity for faster, more responsive rotation
+    rotationSmoothing: 0.32,      // Snappier tracking response with reduced input latency
+    rotationDeadZone: 0.0025,     // Tighter dead zone so smaller hand gestures register immediately
+    maxRotationVelocity: 0.16,    // Higher velocity cap allowing quick 360-degree spins
+    rotationDeceleration: 0.22,   // Crisp deceleration when hand stops moving
     enableVerticalRotation: false,// Default false for stable horizontal rotation; set true for pitch tilt
-    verticalSensitivity: 1.4,     // Vertical rotation sensitivity if enabled
-    verticalDeadZone: 0.004,      // Vertical dead zone
+    verticalSensitivity: 1.8,     // Vertical rotation sensitivity if enabled
+    verticalDeadZone: 0.003,      // Vertical dead zone
 
     // Zoom Settings (Thumb-tip to Index-finger-tip Pinch Distance)
     zoomSensitivity: 3.0,         // Zoom speed relative to pinch distance delta
