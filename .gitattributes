@@ -1,1 +1,1 @@
-*.glb filter=lfs diff=lfs merge=lfs -text
+assets/models/bayard_station_valve_house.glb filter=lfs diff=lfs merge=lfs -text

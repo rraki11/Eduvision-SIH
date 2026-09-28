@@ -2,13 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=frontend/index.html">
-    <title>EduVision AI</title>
-    <script>
-        window.location.href = "frontend/index.html";
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduVision AI | Immersive Learning Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script type="importmap">
+        {"imports":{"three":"https://unpkg.com/three@0.158.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.158.0/examples/jsm/"}}
     </script>
 </head>
-<body style="font-family: sans-serif; text-align: center; padding-top: 50px; background: #07090e; color: #fff;">
-    <p>Redirecting to <a href="frontend/index.html" style="color: #22dfff;">EduVision AI Lab...</a></p>
+<body>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <header class="topbar"><a class="brand" href="#top"><span class="brand-mark"><i class="fa-solid fa-atom"></i></span><span>EDUVISION <b>AI</b></span></a><div class="system-status"><span class="status-pulse"></span> MODEL LAB / ONLINE</div></header>
+    <main id="top">
+        <section class="hero"><div class="eyebrow">SMART EDUCATION PLATFORM <span>v2.0 / GESTURE ENABLED</span></div><h1>Make every concept<br><em>visible.</em></h1><p>Explore curriculum-grade 3D assets in an intelligent classroom workspace designed for live teaching and natural interaction.</p><a class="hero-link" href="#modules">START LEARNING <i class="fa-solid fa-arrow-down"></i></a></section>
+        <section id="modules" class="modules-section">
+            <div class="section-heading"><div><span class="section-index">01 / START LEARNING</span><h2>Choose your lesson</h2></div><p>Open a model viewer, then use mouse, keyboard,<br>or gesture controls to investigate every angle.</p></div>
+            <div class="module-grid">
+                <button class="module-card medical" data-model="heart" type="button"><span class="card-kicker">MEDICAL MODULE</span><span class="module-icon"><i class="fa-solid fa-heart-pulse"></i></span><span class="module-copy"><strong>Human Heart</strong><small>Cardiac anatomy / biology</small></span><i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i></button>
+                <button class="module-card astronomy" data-model="solar" type="button"><span class="card-kicker">ASTRONOMY MODULE</span><span class="module-icon"><i class="fa-solid fa-sun"></i></span><span class="module-copy"><strong>Solar System</strong><small>Orbital mechanics / space</small></span><i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i></button>
+                <button class="module-card engineering" data-model="perspective" type="button"><span class="card-kicker">ENGINEERING MODULE</span><span class="module-icon"><i class="fa-solid fa-cubes"></i></span><span class="module-copy"><strong>Perspective Model</strong><small>Spatial design / structure</small></span><i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i></button>
+                <button class="module-card bridge" data-model="bridge" type="button"><span class="card-kicker">ENGINEERING MODULE</span><span class="module-icon"><i class="fa-solid fa-bridge"></i></span><span class="module-copy"><strong>Manhattan Bridge</strong><small>Infrastructure / civil systems</small></span><i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i></button>
+            </div>
+        </section>
+        <section id="lab" class="lab-section">
+            <div class="section-heading"><div><span class="section-index">02 / LIVE CLASSROOM</span><h2>Immersive learning lab</h2></div><p>Drag to rotate, scroll to zoom, and pan to explore.<br>Enable Gesture Control for hands-free interaction.</p></div>
+            <div class="lab-grid">
+                <aside class="control-panel glass-panel">
+                    <div class="panel-label">TEACHER CONSOLE <span>● LIVE</span></div>
+                    <div class="webcam-frame"><video id="webcam" autoplay muted playsinline></video><div id="camera-placeholder" class="camera-placeholder"><i class="fa-solid fa-video"></i><span>Camera feed offline</span></div><div class="camera-overlay"><span><i class="fa-solid fa-circle"></i> LIVE FEED</span><small>CAM 01</small></div></div>
+                    <div class="console-block"><div class="block-title">MODEL LIBRARY <span>04 ASSETS</span></div><div class="model-options" role="group" aria-label="3D model selection">
+                        <button class="model-option active" data-model="heart" type="button"><span class="option-icon"><i class="fa-solid fa-heart-pulse"></i></span><span><strong>Human Heart</strong><small>Medical / Anatomy</small></span><i class="fa-solid fa-chevron-right"></i></button>
+                        <button class="model-option" data-model="solar" type="button"><span class="option-icon"><i class="fa-solid fa-sun"></i></span><span><strong>Solar System</strong><small>Astronomy / Space</small></span><i class="fa-solid fa-chevron-right"></i></button>
+                        <button class="model-option" data-model="perspective" type="button"><span class="option-icon"><i class="fa-solid fa-cubes"></i></span><span><strong>Perspective Model</strong><small>Engineering / Design</small></span><i class="fa-solid fa-chevron-right"></i></button>
+                        <button class="model-option" data-model="bridge" type="button"><span class="option-icon"><i class="fa-solid fa-bridge"></i></span><span><strong>Manhattan Bridge</strong><small>Engineering / Civil</small></span><i class="fa-solid fa-chevron-right"></i></button>
+                    </div></div>
+                    <div class="console-block"><div class="block-title">AI CONCEPT INPUT</div><div class="input-row"><input id="concept-input" type="text" placeholder="Try: human heart"><button id="voice-btn" title="Use voice input" type="button"><i class="fa-solid fa-microphone"></i></button></div><button id="generate-btn" class="primary-button" type="button"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate visualization</button></div>
+                    <div class="detection-status"><div><span>DETECTION</span><strong id="nlp-status">Ready</strong></div><div><span>CONFIDENCE</span><strong id="confidence-value">--</strong></div></div>
+                </aside>
+                <section class="viewer-panel glass-panel"><div class="viewer-toolbar"><div><button id="back-btn" class="back-button" type="button"><i class="fa-solid fa-arrow-left"></i> Back</button><span class="panel-label">HOLOGRAPHIC VIEWPORT</span><span id="viewer-state" class="viewer-state">READY</span></div><div class="viewer-actions"><button id="gesture-btn" class="gesture-button" type="button"><i class="fa-solid fa-hand"></i> Gesture Control</button><button id="normal-btn" class="normal-button active" type="button">Normal Controls</button><button id="reset-cam-btn" title="Reset camera" type="button"><i class="fa-solid fa-arrows-rotate"></i></button><button id="fullscreen-btn" title="Fullscreen viewer" type="button"><i class="fa-solid fa-expand"></i></button></div></div><div id="3d-container" class="canvas-container"><div id="loading-overlay" class="loading-overlay hidden"><div class="loader"><i class="fa-solid fa-atom"></i><span>Loading asset</span><div class="progress-bar"><div id="loading-progress"></div></div></div></div><div id="viewer-message" class="viewer-message"><i class="fa-solid fa-cube"></i><span>Select a concept to begin</span></div><div id="gesture-panel" class="gesture-panel hidden"><div class="gesture-panel-head"><span><i class="fa-solid fa-hand"></i> GESTURE INPUT</span><button id="gesture-close" title="Disable gesture control" type="button"><i class="fa-solid fa-xmark"></i></button></div><div class="tracking-frame"><canvas id="hand-canvas"></canvas><span class="tracking-corner top-left"></span><span class="tracking-corner top-right"></span><span class="tracking-corner bottom-left"></span><span class="tracking-corner bottom-right"></span></div><div class="gesture-readout"><span>DETECTED GESTURE</span><strong id="gesture-status">Searching for hand...</strong></div><small class="gesture-hint">Open palm: rotate &nbsp; / &nbsp; Pinch: zoom &nbsp; / &nbsp; Fist: reset</small></div></div><div class="model-caption"><div><span class="caption-label">CURRENT ASSET</span><h3 id="model-title">Human Heart</h3><p id="model-desc">A detailed anatomical model for exploring cardiac structure.</p></div><span id="asset-status" class="asset-status"><i class="fa-solid fa-circle-check"></i> LOCAL GLB</span></div></section>
+            </div>
+        </section>
+    </main>
+    <footer><span>EDUVISION AI</span><span>IMMERSIVE LEARNING / 2026</span></footer>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

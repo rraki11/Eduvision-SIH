@@ -202,6 +202,13 @@ function selectModel(key) {
     loadModel(key);
 }
 
+function getModelUrl(fileName) {
+    if (window.location.pathname.includes('/frontend/')) {
+        return `../assets/models/${fileName}`;
+    }
+    return `./assets/models/${fileName}`;
+}
+
 function loadModel(key) {
     const asset = assets[key];
     if (!asset) return;
@@ -213,7 +220,11 @@ function loadModel(key) {
     viewerMessage.classList.add('hidden');
     viewerState.textContent = 'LOADING';
     assetStatus.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> FETCHING GLB';
-    loader.load(`../assets/models/${asset.file}`, (gltf) => {
+
+    const primaryUrl = getModelUrl(asset.file);
+    const fallbackUrl = primaryUrl.startsWith('./') ? `../assets/models/${asset.file}` : `./assets/models/${asset.file}`;
+
+    function applyGltf(gltf) {
         if (token !== modelToken) return;
         currentModel = gltf.scene;
         currentModel.traverse((node) => { if (node.isMesh) { node.castShadow = true; node.receiveShadow = true; } });
@@ -229,15 +240,21 @@ function loadModel(key) {
         assetStatus.innerHTML = '<i class="fa-solid fa-circle-check"></i> LOCAL GLB';
         loadingProgress.style.width = '100%';
         setTimeout(() => loadingOverlay.classList.add('hidden'), 220);
-    }, (progress) => {
+    }
+
+    loader.load(primaryUrl, applyGltf, (progress) => {
         if (progress.total) loadingProgress.style.width = `${Math.max(8, (progress.loaded / progress.total) * 100)}%`;
     }, () => {
-        if (token !== modelToken) return;
-        loadingOverlay.classList.add('hidden');
-        viewerMessage.classList.remove('hidden');
-        viewerMessage.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i><span>Asset could not be loaded. Check the local models folder.</span>';
-        viewerState.textContent = 'ASSET ERROR';
-        assetStatus.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> LOAD FAILED';
+        loader.load(fallbackUrl, applyGltf, (progress) => {
+            if (progress.total) loadingProgress.style.width = `${Math.max(8, (progress.loaded / progress.total) * 100)}%`;
+        }, () => {
+            if (token !== modelToken) return;
+            loadingOverlay.classList.add('hidden');
+            viewerMessage.classList.remove('hidden');
+            viewerMessage.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i><span>Asset could not be loaded. Check the local models folder.</span>';
+            viewerState.textContent = 'ASSET ERROR';
+            assetStatus.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> LOAD FAILED';
+        });
     });
 }
 
